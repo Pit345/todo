@@ -1,0 +1,6 @@
+<h3>Sign in</h3>
+<form action="/signin/" method="post">
+    {% csrf_token %}
+    {{ signin_form }}
+    <input type="submit" value="Submit">
+</form>

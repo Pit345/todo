@@ -7,4 +7,8 @@ class SignupForm(forms.ModelForm):
         fields = ['username', 'email', 'password']
         help_texts = {'username': None}
         labels = {"email": "Email"}
-        widgets = {'password': forms.TextInput()}
+        widgets = {'password': forms.PasswordInput()}
+
+class SigninForm(forms.Form):
+    username = forms.CharField()
+    password = forms.CharField(min_length=5, widget=forms.PasswordInput())
