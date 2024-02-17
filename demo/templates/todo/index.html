@@ -1,3 +1,7 @@
 {% for todo in todos %}
-    <p>{{ todo.title }}</p>
+    {% if todo.completed == True %}
+        <strike><a href="{% url 'completed' todo.id %}"><p>{{ todo.title }}</p></a></strike>
+    {% else %}
+        <a href="{% url 'completed' todo.id %}" ><p>{{ todo.title }}</p>
+    {% endif %}
 {% endfor %}
