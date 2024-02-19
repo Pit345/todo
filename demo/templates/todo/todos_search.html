@@ -1,0 +1,15 @@
+{% for todo in todos %}
+    <table>
+    {% if todo.completed == True %}
+        <tr>
+            <td><strike><a href="{% url 'completed' todo.id %}"><p>{{ todo.title }}</p></a></strike></td>
+            <td><a href="{% url 'delete' todo.id %}">delete</a></td>
+        </tr>
+    {% else %}
+        <tr>
+            <td><a href="{% url 'completed' todo.id %}" ><p>{{ todo.title }}</p></td>
+            <td><a href="{% url 'delete' todo.id %}">delete</a></td>
+        </tr>
+    {% endif %}
+    </table>
+{% endfor %}
