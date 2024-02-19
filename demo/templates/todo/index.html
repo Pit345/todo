@@ -7,16 +7,25 @@
 {% endif %}
 
 {% for todo in todos %}
+    <table>
     {% if todo.completed == True %}
-        <strike><a href="{% url 'completed' todo.id %}"><p>{{ todo.title }}</p></a></strike>
+        <tr>
+            <td><strike><a href="{% url 'completed' todo.id %}"><p>{{ todo.title }}</p></a></strike></td>
+            <td><a href="{% url 'delete' todo.id %}">delete</a></td>
+        </tr>
     {% else %}
-        <a href="{% url 'completed' todo.id %}" ><p>{{ todo.title }}</p>
+        <tr>
+            <td><a href="{% url 'completed' todo.id %}" ><p>{{ todo.title }}</p></td>
+            <td><a href="{% url 'delete' todo.id %}">delete</a></td>
+        </tr>
     {% endif %}
+    </table>
 {% endfor %}
 
 {% if user.is_authenticated %}
         <p align="right"><a href="{% url 'edit_profile' %}">Edit profile</a></p>
         <p align="right"><a href="{% url 'logout_view' %}">Log out</a></p>
+        <a href="{% url 'create' %}">Add todo</a>
     {% else %}
         <p align="right"><a href="{% url 'signin' %}">Sign in</a></p>
         <p align="right"><a href="{% url 'signup' %}">Sign up</a></p>
