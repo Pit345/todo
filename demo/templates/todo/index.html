@@ -15,6 +15,7 @@
 {% endfor %}
 
 {% if user.is_authenticated %}
+        <p align="right"><a href="{% url 'edit_profile' %}">Edit profile</a></p>
         <p align="right"><a href="{% url 'logout_view' %}">Log out</a></p>
     {% else %}
         <p align="right"><a href="{% url 'signin' %}">Sign in</a></p>
