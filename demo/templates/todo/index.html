@@ -1,3 +1,11 @@
+{% if messages %}
+    {% for message in messages %} 
+        <div class="alert alert-{{ message.tags }} m-2" id="msg" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
+
 {% for todo in todos %}
     {% if todo.completed == True %}
         <strike><a href="{% url 'completed' todo.id %}"><p>{{ todo.title }}</p></a></strike>
@@ -5,3 +13,10 @@
         <a href="{% url 'completed' todo.id %}" ><p>{{ todo.title }}</p>
     {% endif %}
 {% endfor %}
+
+{% if user.is_authenticated %}
+        <p align="right"><a href="{% url 'logout_view' %}">Log out</a></p>
+    {% else %}
+        <p align="right"><a href="{% url 'signin' %}">Sign in</a></p>
+        <p align="right"><a href="{% url 'signup' %}">Sign up</a></p>
+{% endif %}

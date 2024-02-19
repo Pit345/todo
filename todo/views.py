@@ -9,6 +9,11 @@ def index(request):
 
 def completed(request, id):
     todo = Todo.objects.get(id=id)
-    todo.completed = True
-    todo.save()
-    return redirect('index')
+    if todo.completed == False:
+        todo.completed = True
+        todo.save()
+        return redirect('index')
+    else:
+        todo.completed = False
+        todo.save()
+        return redirect('index')

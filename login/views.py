@@ -2,8 +2,9 @@ from django.shortcuts import render, redirect, HttpResponse
 from .forms import SignupForm, SigninForm
 from django.urls import reverse
 from django.views.decorators.http import require_http_methods
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.contrib import messages
 
 
 # Create your views here.
@@ -31,12 +32,15 @@ def signin(request):
         signin_form = SigninForm()
         return render(request, 'todo/signin.html', {'signin_form': signin_form})
     else:
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-        breakpoint()
+        user = authenticate(request, username=request.POST['username'], 
+                            password=request.POST['password'])
         if user is not None:
             login(request, user)
             return redirect(reverse('index'))
         else:
             return HttpResponse('Username/password is incorrect or user dont exists')
+    
+def logout_view(request):
+    messages.info(request, f"User {request.user.username.capitalize()} was log out!")
+    logout(request)
+    return redirect(reverse('index'))
