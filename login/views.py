@@ -3,7 +3,7 @@ from .forms import SignupForm, SigninForm, EditProfileForm
 from django.urls import reverse
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
+from .models import MyUser
 from django.contrib import messages
 
 
@@ -20,7 +20,7 @@ def signup(request):
             username = signup_form.cleaned_data['username']
             email = signup_form.cleaned_data['email']
             password = signup_form.cleaned_data['password']
-            User.objects.create_user(username=signup_form.cleaned_data['username'], 
+            MyUser.objects.create_user(username=signup_form.cleaned_data['username'], 
                                      email=signup_form.cleaned_data['email'], 
                                      password=signup_form.cleaned_data['password'])
         return redirect(reverse('index'))
@@ -32,7 +32,7 @@ def signin(request):
         signin_form = SigninForm()
         return render(request, 'todo/signin.html', {'signin_form': signin_form})
     else:
-        user = authenticate(request, username=request.POST['username'], 
+        user = authenticate(request, username=request.POST['username'].capitalize(), 
                             password=request.POST['password'])
         if user is not None:
             login(request, user)
@@ -59,6 +59,6 @@ def edit_profile(request):
 
 
 def logout_view(request):
-    messages.info(request, f"User {request.user.username.capitalize()} was log out!")
+    messages.info(request, f"User {request.user.username} was log out!")
     logout(request)
     return redirect(reverse('index'))
