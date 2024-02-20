@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from todo.models import Todo
 from django.contrib.auth.decorators import login_required
 from login.forms import TodoForm
@@ -14,7 +14,10 @@ def index(request):
 
 def search(request):
     todos = Todo.objects.filter(title__contains=request.GET['query'])
-    return render(request, 'todo/todos_search.html', {'todos': todos})
+    if todos:
+        return render(request, 'todo/todos_search.html', {'todos': todos})
+    else: 
+        return HttpResponse(f"Nothing found {request.GET['query']}, for your search")
 
 @login_required
 def completed(request, id):

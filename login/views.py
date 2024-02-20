@@ -23,6 +23,7 @@ def signup(request):
             MyUser.objects.create_user(username=signup_form.cleaned_data['username'], 
                                      email=signup_form.cleaned_data['email'], 
                                      password=signup_form.cleaned_data['password'])
+            messages.success(request, "Profile was successfully created!")
         return redirect(reverse('index'))
     
 
@@ -36,6 +37,7 @@ def signin(request):
                             password=request.POST['password'])
         if user is not None:
             login(request, user)
+            messages.success(request, f"{request.user.username} welcome to Todo App!")
             return redirect(reverse('index'))
         else:
             return HttpResponse('Username/password is incorrect or user dont exists')
@@ -55,10 +57,10 @@ def edit_profile(request):
             user.email = edit_form.cleaned_data['email']
             user.set_password(edit_form.cleaned_data['password'])
             user.save()
+            messages.success(request, "Profile was successfully update")
         return redirect(reverse('index'))
 
-
 def logout_view(request):
-    messages.info(request, f"User {request.user.username} was log out!")
+    messages.success(request, f"User {request.user.username} was log out!")
     logout(request)
     return redirect(reverse('index'))
