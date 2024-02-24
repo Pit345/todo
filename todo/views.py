@@ -39,8 +39,9 @@ def create(request):
         return render(request, 'todo/todo_form.html', {'todo_form': todo_form})
     else:
         user.todo_set.create(title=request.POST['title'])
+        
         return redirect(reverse('index'))
-
+@login_required
 def delete(request, id):
     Todo.objects.get(id=id).delete()
     return redirect('index')

@@ -20,9 +20,10 @@ def signup(request):
             username = signup_form.cleaned_data['username']
             email = signup_form.cleaned_data['email']
             password = signup_form.cleaned_data['password']
-            MyUser.objects.create_user(username=signup_form.cleaned_data['username'], 
+            user = MyUser.objects.create_user(username=signup_form.cleaned_data['username'], 
                                      email=signup_form.cleaned_data['email'], 
                                      password=signup_form.cleaned_data['password'])
+            login(request, user)
             messages.success(request, "Profile was successfully created!")
         return redirect(reverse('index'))
     
