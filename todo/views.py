@@ -5,13 +5,14 @@ from login.forms import TodoForm
 from django.urls import reverse
 from django.contrib import messages
 from .forms import SearchForm
+from django.views.generic import ListView
 
 # Create your views here.
 
-def index(request):
-    todos = Todo.objects.all()
-    return render(request, 'todo/index.html', {'todos': todos, 'query': SearchForm()})
-
+class TodosListView(ListView):
+    model = Todo
+    template_name = 'todo/index.html'
+    
 def search(request):
     todos = Todo.objects.filter(title__contains=request.GET['query'])
     if todos:
@@ -41,6 +42,7 @@ def create(request):
         user.todo_set.create(title=request.POST['title'])
         
         return redirect(reverse('index'))
+    
 @login_required
 def delete(request, id):
     Todo.objects.get(id=id).delete()
